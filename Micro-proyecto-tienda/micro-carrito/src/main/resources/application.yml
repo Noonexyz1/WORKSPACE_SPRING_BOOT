@@ -1,0 +1,25 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: account-manager
+  datasource:
+    url: jdbc:postgresql://localhost:5432/micro-tienda-db
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+debug: true
+#La cadena jdbc:postgresql://localhost:5432/postgres es una URL de conexión JDBC que especifica cómo conectarse a una base de datos PostgreSQL. Cada parte de la URL tiene un significado específico:
+
+#jdbc: Es el protocolo utilizado para conectarse a la base de datos. JDBC significa Java Database Connectivity y es una API para conectarse a bases de datos desde aplicaciones Java.
+#postgresql: Es el subprotocolo que especifica el tipo de base de datos a la que se está conectando, en este caso, PostgreSQL.
+#localhost: Es el nombre del host o la dirección IP del servidor donde se encuentra la base de datos. En este caso, se está utilizando localhost, lo que significa que la base de datos se encuentra en el mismo equipo donde se está ejecutando la aplicación.
+#5432: Es el número de puerto en el que escucha el servidor de base de datos. El puerto predeterminado para PostgreSQL es 5432.
+#postgres: Es el nombre de la base de datos a la que se está conectando.
+#  En resumen, esta URL especifica que se está utilizando JDBC para conectarse a una base de datos PostgreSQL en el equipo local en el puerto 5432 y que la base de datos se llama postgres
