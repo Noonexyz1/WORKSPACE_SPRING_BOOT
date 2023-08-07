@@ -25,6 +25,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                 .correo(userReguisterDTO.correo())
                 .contrasena(userReguisterDTO.contrasena())
                 .fechaRegistro(LocalDateTime.now())
+                .rol(userReguisterDTO.role())
                 .build();
 
         Usuario userResponse = userRegisterRepository.save(usuario);

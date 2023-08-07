@@ -24,7 +24,8 @@ public class UserRegisterControllerImplTest {
         String jsonBody = "{"
                 + "\"nombre\": \"Pablo\","
                 + "\"correo\": \"pablo@pablo.com\","
-                + "\"contrasena\": \"123456\""
+                + "\"contrasena\": \"123456\","
+                + "\"role\": \"USER\""
                 + "}";
 
         mockMvc.perform(

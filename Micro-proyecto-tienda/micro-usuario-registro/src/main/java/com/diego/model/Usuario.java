@@ -1,5 +1,6 @@
 package com.diego.model;
 
+import com.diego.enums.UserTypeRoles;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,8 @@ public class Usuario {
     private String correo;
     private String contrasena;
     private LocalDateTime fechaRegistro;
+    @Enumerated(EnumType.STRING)
+    private UserTypeRoles rol;
 
     @OneToMany(targetEntity = CarritoCompras.class, mappedBy = "usuario")
     private List<CarritoCompras> carritosDeCompraDeUsuario;

@@ -2,6 +2,7 @@ package com.diego.service;
 
 import com.diego.dto.request.UserReguisterDTO;
 import com.diego.dto.response.UserReguisteredDTO;
+import com.diego.enums.UserTypeRoles;
 import com.diego.model.Usuario;
 import com.diego.repository.UserRegisterRepository;
 
@@ -41,6 +42,7 @@ public class UserRegisterServiceImplTest {
                 .nombre("John")
                 .correo("john@john.com")
                 .contrasena("123456")
+                .role(UserTypeRoles.USER)
                 .build();
         Usuario usuario = Usuario.builder()
                 .nombre(userReguisterDTO.nombre())
