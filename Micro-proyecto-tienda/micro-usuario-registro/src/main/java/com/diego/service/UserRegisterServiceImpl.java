@@ -4,10 +4,14 @@ import com.diego.dto.request.UserReguisterDTO;
 import com.diego.dto.response.UserReguisteredDTO;
 import com.diego.model.Usuario;
 import com.diego.repository.UserRegisterRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
+@AllArgsConstructor
 public class UserRegisterServiceImpl implements UserRegisterService {
 
     @Autowired
@@ -20,7 +24,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                 .nombre(userReguisterDTO.nombre())
                 .correo(userReguisterDTO.correo())
                 .contrasena(userReguisterDTO.contrasena())
-                .fechaRegistro(null)
+                .fechaRegistro(LocalDateTime.now())
                 .build();
 
         Usuario userResponse = userRegisterRepository.save(usuario);

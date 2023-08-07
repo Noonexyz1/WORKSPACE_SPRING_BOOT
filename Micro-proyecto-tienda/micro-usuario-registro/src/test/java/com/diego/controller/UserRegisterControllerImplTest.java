@@ -12,10 +12,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 //PRUEBAS DE INTEGRACION
 @SpringBootTest         //Para cargar el contexto de spring para hacer pruebas
-@AutoConfigureMockMvc   //para injectar la clase McokMvc
+@AutoConfigureMockMvc   //para injectar la clase McokMvc SOLO PARA CONTROLADORES
 public class UserRegisterControllerImplTest {
 
-    @Autowired         //para poder crear y enviar peticiones a nuestro servidor para testear
+    @Autowired          //para poder crear y enviar peticiones a nuestro servidor para testear
+                        //SOLO PARA CONTROLADORES
     private MockMvc mockMvc;
 
     @Test
@@ -45,6 +46,7 @@ public class UserRegisterControllerImplTest {
                                 .content()
                                 .contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
                 );
+
     }
 
 }
