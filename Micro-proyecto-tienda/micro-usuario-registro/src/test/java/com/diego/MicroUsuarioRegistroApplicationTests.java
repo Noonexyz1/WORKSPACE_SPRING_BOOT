@@ -1,4 +1,4 @@
-package com.diego.microusuarioregistro;
+package com.diego;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

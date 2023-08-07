@@ -3,7 +3,7 @@ package com.diego.controller;
 import com.diego.dto.response.UserReguisterErrorDTO;
 import com.diego.exception.UserRegisterNotComplitedException;
 import com.diego.exception.httperrors.ServerErrorHttpException;
-import com.diego.service.UserRegisterExceptionServiceImpl;
+import com.diego.service.UserRegisterExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -18,7 +18,7 @@ public class UserRegisterExceptionHandlerControllerImpl implements UserRegisterE
 
     //Inyeccion Exitosa
     @Autowired
-    private UserRegisterExceptionServiceImpl userRegisterExceptionService;
+    private UserRegisterExceptionService userRegisterExceptionService;
 
 
     /* cuando tu aplicación realiza llamadas HTTP a servicios externos (como otros
