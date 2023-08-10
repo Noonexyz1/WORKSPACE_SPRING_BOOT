@@ -16,9 +16,30 @@ class UserLoginControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Test
+    void cuandoElUsuarioEnviaDatosErroneosAlServidor(){}
+
+    @Test
+    void cuandoLosCamposNoSonValidosDelLadoCliente(){}
+
+    @Test
+    void cuandoSeLanzaUnaExcepcionDelLadoCliente(){}
+
+    @Test
+    void cuandoElClienteEnviaUnJsonNoValido(){}
+
+    @Test
+    void cuandoNoSePudoEncontraElUsuarioParaInciarSesion(){}
+
+    @Test
+    void cuandoSeLanzaUnaExcepcionDelLadoServidor(){}
+
+    //Los Test deben ser para Las situaciones que salen bien
+    //y las situaciones que salen mal
 
     @Test
     void cuandoElUsuarioEnviaDatosCorrectosDeSession() throws Exception {
+        //Datos inciales
         String jsonBody = "{"
                 + "\"correo\": \"ana@ana.com\","
                 + "\"contrasena\": \"123456\""
@@ -30,6 +51,7 @@ class UserLoginControllerTest {
                 + "\"rol\": \"USER\""
                 + "}";
 
+        //Iniciamos las prueba con el resultado deseado
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/login/logearse")
                                 .content(jsonBody)
