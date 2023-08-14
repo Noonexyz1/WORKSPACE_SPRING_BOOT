@@ -28,13 +28,10 @@ class UserLoginControllerTest {
     @Test
     void cuandoElClienteEnviaUnJsonNoValido(){}
 
-    @Test
-    void cuandoNoSePudoEncontraElUsuarioParaInciarSesion(){}
 
-    @Test
-    void cuandoSeLanzaUnaExcepcionDelLadoServidor(){}
 
-    //Los Test deben ser para Las situaciones que salen bien
+
+    //Los Test deben ser para Las situaciones que deben salir  bien
     //y las situaciones que salen mal
 
     @Test
