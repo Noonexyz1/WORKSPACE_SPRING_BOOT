@@ -16,19 +16,6 @@ class UserLoginControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    void cuandoElUsuarioEnviaDatosErroneosAlServidor(){}
-
-    @Test
-    void cuandoLosCamposNoSonValidosDelLadoCliente(){}
-
-    @Test
-    void cuandoSeLanzaUnaExcepcionDelLadoCliente(){}
-
-    @Test
-    void cuandoElClienteEnviaUnJsonNoValido(){}
-
-
 
 
     //Los Test deben ser para Las situaciones que deben salir  bien
@@ -68,6 +55,20 @@ class UserLoginControllerTest {
                 );
 
     }
+
+
+
+    //Aqui los demas test de modo expecion al parecer
+    @Test
+    void lanzarExceptions(){}
+    @Test
+    void cuandoLosCamposNoSonValidosDelLadoCliente(){}
+    @Test
+    void cuandoElClienteEnviaUnJsonNoValido(){}
+    @Test
+    void cuandoElUsuarioEnviaDatosErroneosAlServidor(){}
+    @Test
+    void cuandoExisteUnErrorNoDefinido(){}
 
 
 }

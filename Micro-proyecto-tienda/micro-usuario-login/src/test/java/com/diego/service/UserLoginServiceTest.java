@@ -36,11 +36,19 @@ class UserLoginServiceTest {
 
     }
 
+
+    //Aqui mis test de exceptions
     @Test
-    void cuandoSeLanzaUnaExcepcionDelLadoServidor(){
+    void cuandoLosCamposNoSonValidosDelLadoController(){}
+    @Test
+    void cuandoElClienteEnviaUnJsonNoValidoController(){}
+    @Test
+    void cuandoElUsuarioEnviaDatosErroneosAlServidorController(){}
+    @Test
+    void errorNoDefinidoDelServidorController(){}
 
 
 
-    }
+
 
 }
