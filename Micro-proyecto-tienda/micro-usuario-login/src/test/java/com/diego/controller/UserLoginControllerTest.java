@@ -56,19 +56,126 @@ class UserLoginControllerTest {
 
     }
 
-
-
     //Aqui los demas test de modo expecion al parecer
     @Test
-    void lanzarExceptions(){}
+    void cuandoLosCamposNoSonValidosDelLadoCliente() throws Exception {
+        //Given
+        String jsonBody = "{"
+                + "\"correo\": \"\","
+                + "\"contrasena\": \"\""
+                + "}";
+
+        String jsonBodyResponse = "{"
+                + "\"code\": \"ERROR-TYPE-400\","
+                + "\"message\": \"Los campos no son validos\""
+                + "}";
+
+        //When
+        mockMvc.perform(
+                    MockMvcRequestBuilders.post("/login/logearse")
+                            .content(jsonBody)
+                            .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                )
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.content().json(jsonBodyResponse)
+                );
+
+    }
+
+
+
     @Test
-    void cuandoLosCamposNoSonValidosDelLadoCliente(){}
+    void cuandoElClienteEnviaUnJsonNoValido() throws Exception {
+        String jsonBody = "{"
+                + "\"correo\": ,"
+                + "\"contrasena\": \"\""
+                + "}";
+
+        String jsonBodyResponse = "{"
+                + "\"code\": \"ERROR-TYPE-400\","
+                + "\"message\": \"Json mal formado\""
+                + "}";
+
+        //When
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/login/logearse")
+                                .content(jsonBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                )
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.content().json(jsonBodyResponse)
+                );
+    }
+
     @Test
-    void cuandoElClienteEnviaUnJsonNoValido(){}
+    void cuandoElUsuarioEnviaDatosErroneosAlServidor() throws Exception {
+        String jsonBody = "{"
+                + "\"correo\": \"ana@ana.comZZZZZZ\","
+                + "\"contrasena\": \"123456ZZZZ\""
+                + "}";
+
+        String jsonBodyResponse = "{"
+                + "\"code\": \"ERROR-TYPE-400\","
+                + "\"message\": \"Usuario no Encontrado\""
+                + "}";
+
+        //When
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/login/logearse")
+                                .content(jsonBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                )
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.content().json(jsonBodyResponse)
+                );
+    }
+
     @Test
-    void cuandoElUsuarioEnviaDatosErroneosAlServidor(){}
-    @Test
-    void cuandoExisteUnErrorNoDefinido(){}
+    void cuandoExisteUnErrorNoDefinido() throws Exception {
+        String jsonBody = "{"
+                + "\"correo\": \"ana@ana.comZZZZZZ\","
+                + "\"contrasena\": \"123456ZZZZ\""
+                + "}";
+
+        String jsonBodyResponse = "{"
+                + "\"code\": \"ERROR-TYPE-900\","
+                + "\"message\": \"Error de cliente no definido\""
+                + "}";
+
+        //When
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/login/logearse")
+                                .content(jsonBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.status().isBadRequest()
+                )
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.content().json(jsonBodyResponse)
+                );
+    }
 
 
 }
