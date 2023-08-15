@@ -91,16 +91,15 @@ class UserLoginServiceTest {
                 .build();
 
         //When
-        UserLoginRegistedDTO userLoginRegistedDTO = userLoginService.logUser(userLoginDTO);
+        //UserLoginRegistedDTO userLoginRegistedDTO = userLoginService.logUser(userLoginDTO);
 
         Assertions.assertThatThrownBy(() -> userLoginService.logUser(userLoginDTO))
                 .isInstanceOf(MethodArgumentNotValidException.class)
                         .hasMessage(userLoginRegisterDTOError.toString());
 
-        //Then
-        Assertions.assertThat(userLoginRegistedDTO).isEqualTo(userLoginRegisterDTOError);
+
     }
-    
+
     @Test
     void cuandoElClienteEnviaUnJsonNoValidoController(){}
     @Test
