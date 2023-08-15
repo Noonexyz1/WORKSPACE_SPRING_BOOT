@@ -3,19 +3,28 @@ package com.diego.service;
 import com.diego.dto.request.UserLoginDTO;
 import com.diego.dto.response.UserLoginRegistedDTO;
 import com.diego.dto.response.UserLoginRegisterDTOError;
+import com.diego.enums.UserTypeRoles;
+import com.diego.model.Usuario;
+import com.diego.repository.UserLoginRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@SpringBootTest
 class UserLoginServiceTest {
 
+    @Autowired
     private UserLoginServiceImpl userLoginService;
+    @MockBean
+    private UserLoginRepository userLoginRepository;
 
-    @BeforeEach
-    public void startUp(){
-        userLoginService = new UserLoginServiceImpl();
-    }
+
     @Test
     void cuandoSiSePudoEncontraElUsuarioParaInciarSesionUSER(){
         //Ghiven datos de incializacion para probar
@@ -29,12 +38,27 @@ class UserLoginServiceTest {
                 .rol("USER")
                 .build();
 
+        // Simulando el comportamiento del repositorio
+        Usuario usuarioMock = Usuario.builder()
+                .id(10)
+                .contrasena("123456")
+                .correo("ana@ana.com")
+                .nombre("Ana")
+                .rol(UserTypeRoles.USER)
+                .build();
+
+        Mockito.when(userLoginRepository.findByPassAndEmail(userLoginDTO.contrasena(), userLoginDTO.correo()))
+                .thenReturn(usuarioMock);
+
         //When
         UserLoginRegistedDTO userLoginRegistedDTO = userLoginService.logUser(userLoginDTO);
 
         //Then
-        Assertions.assertThat(userLoginRegistedDTO).isEqualTo(userLoginRegistedFoundDTO);
+        //Assertions.assertThat(userLoginRegistedDTO).isEqualTo(userLoginRegistedFoundDTO);
+        assertEquals(userLoginRegistedFoundDTO, userLoginRegistedDTO);
     }
+
+
     @Test
     void cuandoSiSePudoEncontraElUsuarioParaInciarSesionADMIN(){
         //Ghiven datos de incializacion para probar

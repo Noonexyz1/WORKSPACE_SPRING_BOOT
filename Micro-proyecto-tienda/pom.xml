@@ -65,6 +65,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--
+
+		TODO: esto es para utilizarlo en el micro-authorization
+		Cuando se le aplica las dependencias de Spring Security, todas las clases anotadas y usadas como Controller,
+        Service, Repository y demas, se encuentran protegidas por defecto
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -74,6 +80,8 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		-->
 
 
 	</dependencies>

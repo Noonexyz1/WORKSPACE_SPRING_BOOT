@@ -14,6 +14,16 @@ public class UserLoginServiceImpl {
     private UserLoginRepository userLoginRepository;
 
     public UserLoginRegistedDTO logUser(UserLoginDTO user){
+        /*NOTA IMPORTANTE:
+        *Cuando se le aplica las dependencias de Spring Security, todas las clases anotadas y usadas como Controller,
+        * Service, Repository y demas, se encuentran protegidas por defecto, lo que siginifica que si no existe una configuraicon
+        * previa, nadie podra hacer uso de estas clases o componentes de ningun tipo.
+        * El problema que presentaba al momento de hacer el request, fue que por mas bien que estubiera, me salia error
+        * por el motivo que se menciona anteriormente
+        * */
+
+                                    //Con Spring Security, este metodo no tendra acceso al repositorio, OJO
+                                    //Si no, me devolvera un error
         Usuario usuarioEncontrado = userLoginRepository.findByPassAndEmail(user.contrasena(), user.correo());
 
         if (usuarioEncontrado == null) {
