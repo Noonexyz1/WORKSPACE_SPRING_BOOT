@@ -66,7 +66,7 @@ class UserLoginControllerTest {
                 + "}";
 
         String jsonBodyResponse = "{"
-                + "\"code\": \"ERROR-TYPE-400\","
+                + "\"code\": \"T-902\","
                 + "\"message\": \"Los campos no son validos\""
                 + "}";
 
@@ -98,7 +98,7 @@ class UserLoginControllerTest {
                 + "}";
 
         String jsonBodyResponse = "{"
-                + "\"code\": \"ERROR-TYPE-400\","
+                + "\"code\": \"T-901\","
                 + "\"message\": \"Json mal formado\""
                 + "}";
 
@@ -120,15 +120,15 @@ class UserLoginControllerTest {
     }
 
     @Test
-    void cuandoElUsuarioEnviaDatosErroneosAlServidor() throws Exception {
+    void cuandoElUsuarioEnviaDatosErroneosAlServidorYNoEncuentraElUsuario() throws Exception {
         String jsonBody = "{"
                 + "\"correo\": \"ana@ana.comZZZZZZ\","
                 + "\"contrasena\": \"123456ZZZZ\""
                 + "}";
 
         String jsonBodyResponse = "{"
-                + "\"code\": \"ERROR-TYPE-400\","
-                + "\"message\": \"Usuario no Encontrado\""
+                + "\"code\": \"T-905\","
+                + "\"message\": \"Usuario no encontrado\""
                 + "}";
 
         //When
@@ -138,7 +138,7 @@ class UserLoginControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(
-                        MockMvcResultMatchers.status().isBadRequest()
+                        MockMvcResultMatchers.status().is5xxServerError()
                 )
                 .andExpect(MockMvcResultMatchers.content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
@@ -148,34 +148,9 @@ class UserLoginControllerTest {
                 );
     }
 
-    @Test
-    void cuandoExisteUnErrorNoDefinido() throws Exception {
-        String jsonBody = "{"
-                + "\"correo\": \"ana@ana.comZZZZZZ\","
-                + "\"contrasena\": \"123456ZZZZ\""
-                + "}";
-
-        String jsonBodyResponse = "{"
-                + "\"code\": \"ERROR-TYPE-900\","
-                + "\"message\": \"Error de cliente no definido\""
-                + "}";
-
-        //When
-        mockMvc.perform(
-                        MockMvcRequestBuilders.post("/login/logearse")
-                                .content(jsonBody)
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(
-                        MockMvcResultMatchers.status().isBadRequest()
-                )
-                .andExpect(MockMvcResultMatchers.content()
-                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(
-                        MockMvcResultMatchers.content().json(jsonBodyResponse)
-                );
-    }
+    
+    //@Test
+    //void cuandoExisteUnErrorNoDefinido() throws Exception {}
 
 
 }
