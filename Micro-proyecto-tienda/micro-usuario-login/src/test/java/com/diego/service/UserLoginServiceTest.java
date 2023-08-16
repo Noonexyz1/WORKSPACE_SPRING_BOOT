@@ -7,6 +7,8 @@ import com.diego.enums.UserTypeRoles;
 import com.diego.model.Usuario;
 import com.diego.repository.UserLoginRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +21,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class UserLoginServiceTest {
 
-    @Autowired
+    @Autowired  //Nuestro Servicio
     private UserLoginServiceImpl userLoginService;
-    @MockBean
+    @MockBean   //Nuestro Repositorio MockBean para simular
     private UserLoginRepository userLoginRepository;
 
-
-    @Test
-    void cuandoSiSePudoEncontraElUsuarioParaInciarSesionUSER(){
-        //Ghiven datos de incializacion para probar
+    @BeforeEach //Para simular que lo trae de la base de datos
+    void setUp(){
+        //Ghiven datos de incializacion para probar el servicio
         UserLoginDTO userLoginDTO = UserLoginDTO.builder()
                 .correo("ana@ana.com")
                 .contrasena("123456")
-                .build();
-        //valor del resultado esperado
-        UserLoginRegistedDTO userLoginRegistedFoundDTO = UserLoginRegistedDTO.builder()
-                .userName("Ana")
-                .rol("USER")
                 .build();
 
         // Simulando el comportamiento del repositorio
@@ -49,6 +45,22 @@ class UserLoginServiceTest {
 
         Mockito.when(userLoginRepository.findByPassAndEmail(userLoginDTO.contrasena(), userLoginDTO.correo()))
                 .thenReturn(usuarioMock);
+    }
+
+    @Test
+    @DisplayName("Prueba para la obtencion del un UserLoginRegistedDTO")
+    void cuandoSiSePudoEncontraElUsuarioParaInciarSesionUSER(){
+        //Ghiven datos de incializacion para probar el servicio
+        UserLoginDTO userLoginDTO = UserLoginDTO.builder()
+                .correo("ana@ana.com")
+                .contrasena("123456")
+                .build();
+
+        //valor del resultado esperado
+        UserLoginRegistedDTO userLoginRegistedFoundDTO = UserLoginRegistedDTO.builder()
+                .userName("Ana")
+                .rol("USER")
+                .build();
 
         //When
         UserLoginRegistedDTO userLoginRegistedDTO = userLoginService.logUser(userLoginDTO);

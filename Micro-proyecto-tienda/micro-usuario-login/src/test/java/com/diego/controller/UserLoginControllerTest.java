@@ -12,15 +12,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserLoginControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
 
-
-
     //Los Test deben ser para Las situaciones que deben salir  bien
     //y las situaciones que salen mal
-
     @Test
     void cuandoElUsuarioEnviaDatosCorrectosDeSession() throws Exception {
         //Datos inciales
@@ -28,7 +24,6 @@ class UserLoginControllerTest {
                 + "\"correo\": \"ana@ana.com\","
                 + "\"contrasena\": \"123456\""
                 + "}";
-
 
         String jsonBodyResponse = "{"
                 + "\"userName\": \"Ana\","
@@ -53,7 +48,6 @@ class UserLoginControllerTest {
                         MockMvcResultMatchers.content()
                                 .json(jsonBodyResponse)
                 );
-
     }
 
     //Aqui los demas test de modo expecion al parecer
@@ -85,10 +79,7 @@ class UserLoginControllerTest {
                 .andExpect(
                         MockMvcResultMatchers.content().json(jsonBodyResponse)
                 );
-
     }
-
-
 
     @Test
     void cuandoElClienteEnviaUnJsonNoValido() throws Exception {
@@ -148,7 +139,7 @@ class UserLoginControllerTest {
                 );
     }
 
-    
+
     //@Test
     //void cuandoExisteUnErrorNoDefinido() throws Exception {}
 
