@@ -4,6 +4,7 @@ import com.diego.dto.request.UserLoginDTO;
 import com.diego.dto.response.UserLoginRegistedDTO;
 import com.diego.dto.response.UserLoginRegisterDTOError;
 import com.diego.enums.UserTypeRoles;
+import com.diego.exception.UserLoginNotFoundException;
 import com.diego.model.Usuario;
 import com.diego.repository.UserLoginRepository;
 import org.assertj.core.api.Assertions;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class UserLoginServiceTest {
@@ -26,29 +28,34 @@ class UserLoginServiceTest {
     @MockBean   //Nuestro Repositorio MockBean para simular
     private UserLoginRepository userLoginRepository;
 
-    @BeforeEach //Para simular que lo trae de la base de datos
-    void setUp(){
-        //Ghiven datos de incializacion para probar el servicio
+    //Metodo auxiliar
+    private void mockUser(String email, String password, String name, UserTypeRoles role) {
         UserLoginDTO userLoginDTO = UserLoginDTO.builder()
-                .correo("ana@ana.com")
-                .contrasena("123456")
+                .correo(email)
+                .contrasena(password)
                 .build();
 
-        // Simulando el comportamiento del repositorio
         Usuario usuarioMock = Usuario.builder()
-                .id(10)
-                .contrasena("123456")
-                .correo("ana@ana.com")
-                .nombre("Ana")
-                .rol(UserTypeRoles.USER)
+                .contrasena(password)
+                .correo(email)
+                .nombre(name)
+                .rol(role)
                 .build();
 
         Mockito.when(userLoginRepository.findByPassAndEmail(userLoginDTO.contrasena(), userLoginDTO.correo()))
                 .thenReturn(usuarioMock);
     }
 
+
+    @BeforeEach //Para simular que lo trae de la base de datos
+    void setUp(){
+        mockUser("ana@ana.com", "123456", "Ana", UserTypeRoles.USER);
+        mockUser("diego@diego.com", "123456", "Diego", UserTypeRoles.ADMIN);
+
+    }
+
     @Test
-    @DisplayName("Prueba para la obtencion del un UserLoginRegistedDTO")
+    @DisplayName("Prueba para la obtencion de un UserLoginRegistedDTO con USER")
     void cuandoSiSePudoEncontraElUsuarioParaInciarSesionUSER(){
         //Ghiven datos de incializacion para probar el servicio
         UserLoginDTO userLoginDTO = UserLoginDTO.builder()
@@ -72,6 +79,7 @@ class UserLoginServiceTest {
 
 
     @Test
+    @DisplayName("Prueba para la obtencion de un UserLoginRegistedDTO con ADMIN")
     void cuandoSiSePudoEncontraElUsuarioParaInciarSesionADMIN(){
         //Ghiven datos de incializacion para probar
         UserLoginDTO userLoginDTO = UserLoginDTO.builder()
@@ -88,27 +96,21 @@ class UserLoginServiceTest {
         UserLoginRegistedDTO userLoginRegistedDTO = userLoginService.logUser(userLoginDTO);
 
         //Then
-        Assertions.assertThat(userLoginRegistedDTO).isEqualTo(userLoginRegistedFoundDTO);
+        assertEquals(userLoginRegistedFoundDTO, userLoginRegistedDTO);
     }
 
     @Test
+    @DisplayName("Prueba cuando no se encuentra ningun tipo de usuario")
     void cuandoNoSePudoEncontraElUsuarioParaInciarSesion(){
         //Ghiven datos de incializacion para probar
         UserLoginDTO userLoginDTO = UserLoginDTO.builder()
                 .correo("ana@ana.comZZZZZZZZ")     //Debo poner algun dato erroneo
                 .contrasena("123456ZZZZZZZZ") //Aqui tambien
                 .build();
-        //valor del resultado esperado
-        UserLoginRegistedDTO userLoginRegistedNotFoundDTO = UserLoginRegistedDTO.builder()
-                .userName("Usuario no encontrado")
-                .rol("Rol no encontrado")
-                .build();
 
-        //When
-        UserLoginRegistedDTO userLoginRegistedDTO = userLoginService.logUser(userLoginDTO);
-
-        //Then
-        Assertions.assertThat(userLoginRegistedDTO).isEqualTo(userLoginRegistedNotFoundDTO);
+        assertThrows(UserLoginNotFoundException.class, () -> {
+            userLoginService.logUser(userLoginDTO);
+        });
 
     }
 
