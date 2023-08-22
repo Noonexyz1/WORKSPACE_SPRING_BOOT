@@ -1,5 +1,10 @@
 package com.diego.controller;
 
+import com.diego.dto.request.UserReguisterDTO;
+import com.diego.dto.response.UserReguisteredDTO;
+import com.diego.enums.UserTypeRoles;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,19 +24,34 @@ public class UserRegisterControllerImplTest {
                         //SOLO PARA CONTROLADORES
     private MockMvc mockMvc;
 
+
+    private UserReguisterDTO userReguisterDTO;
+    private UserReguisteredDTO userReguisteredDTO;
+
+    @BeforeEach
+    void setUp(){
+        userReguisterDTO = UserReguisterDTO.builder()
+                .nombre("Jose")
+                .correo("jose@jose.com")
+                .contrasena("123456")
+                .role(UserTypeRoles.USER)
+                .build();
+
+        userReguisteredDTO = UserReguisteredDTO.builder()
+                .nombre("Jose")
+                .correo("jose@jose.com")
+                .build();
+    }
+
     @Test
     public void cuando_LlamoACrearUsuario_entonces_elEstadoES200() throws Exception {
-        String jsonBody = "{"
-                + "\"nombre\": \"Pablo\","
-                + "\"correo\": \"pablo@pablo.com\","
-                + "\"contrasena\": \"123456\","
-                + "\"role\": \"USER\""
-                + "}";
+        String jsonReques = new ObjectMapper().writeValueAsString(userReguisterDTO);
+        String jsonResponse = new ObjectMapper().writeValueAsString(userReguisteredDTO);
 
         mockMvc.perform(
                 MockMvcRequestBuilders
                         .post("/usuario/crearUsuario")
-                        .content(jsonBody)
+                        .content(jsonReques)
                         .contentType(MediaType.APPLICATION_JSON)
                   //    .content()
                 //      .cookie()
@@ -46,6 +66,10 @@ public class UserRegisterControllerImplTest {
                         MockMvcResultMatchers
                                 .content()
                                 .contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        MockMvcResultMatchers.content()
+                                .json(jsonResponse)
                 );
 
     }
