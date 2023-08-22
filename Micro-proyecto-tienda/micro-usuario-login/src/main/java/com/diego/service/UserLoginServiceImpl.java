@@ -30,6 +30,7 @@ public class UserLoginServiceImpl {
             throw new UserLoginNotFoundException("Este error es porque no se encontro el usuario");
         }
 
+        //throw new RuntimeException();
         return UserLoginRegistedDTO.builder()
                 .userName(usuarioEncontrado.getNombre())
                 .rol(usuarioEncontrado.getRol().toString())
