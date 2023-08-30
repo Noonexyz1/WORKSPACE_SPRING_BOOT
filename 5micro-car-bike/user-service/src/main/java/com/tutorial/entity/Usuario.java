@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Usuario { // " User " es una palabra reservada de H2.
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
