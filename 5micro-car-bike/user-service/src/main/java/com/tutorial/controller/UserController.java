@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -39,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(userNew);
     }
 
-
+    /*Esto es RestTemplate*/
     @GetMapping("/cars/{userId}")
     public ResponseEntity<List<Car>> getCars(@PathVariable("userId") int userId){
         Usuario user = userService.getUserById(userId);
@@ -57,6 +58,36 @@ public class UserController {
         }
         List<Bike> bikes = userService.getBikes(userId);
         return ResponseEntity.ok(bikes);
+    }
+
+    /*Esto es OopenFeing*/
+    @PostMapping("/savecar/{userId}")
+    ResponseEntity<Car> saveCar(@PathVariable("userId") int userId, @RequestBody Car car){
+        //primero debe haber un usuario
+        if (userService.getUserById(userId) == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Car carNew = userService.saveCar(userId, car);
+        //userService.saveCar(userId, car);
+        //return ResponseEntity.ok(carNew);
+        return ResponseEntity.ok(car);
+    }
+    @PostMapping("/savebike/{userId}")
+    ResponseEntity<Bike> saveBike(@PathVariable("userId") int userId, @RequestBody Bike bike){
+        //primero debe haber un usuario
+        if (userService.getUserById(userId) == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Bike bikeNew = userService.saveBike(userId, bike);
+        //userService.saveCar(userId, car);
+        //return ResponseEntity.ok(carNew);
+        return ResponseEntity.ok(bike);
+    }
+
+    @GetMapping("/getAll/{userId}")
+    public ResponseEntity<Map<String, Object>> getAllVehicles(@PathVariable("userId") int userId){
+        Map<String, Object> result = userService.getUserAndVehicles(userId);
+        return ResponseEntity.ok(result);
     }
 
 }
